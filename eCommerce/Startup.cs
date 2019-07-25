@@ -36,7 +36,7 @@ namespace eCommerce
             string connection = Configuration.GetConnectionString("GameDbConnection");
 
             //Register DB Context
-            services.AddDbContext<GameContent>
+            services.AddDbContext<GameContext>
             (
                 options => options.UseSqlServer(connection)
             );

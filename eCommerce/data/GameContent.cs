@@ -11,9 +11,9 @@ namespace eCommerce.data
     /// The database context class for
     /// the video game store
     /// </summary>
-    public class GameContent : DbContext 
+    public class GameContext : DbContext 
     {
-        public GameContent(DbContextOptions<GameContent> options)
+        public GameContext(DbContextOptions<GameContext> options)
             : base(options)
         {
             
