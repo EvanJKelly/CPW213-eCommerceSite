@@ -17,10 +17,12 @@ namespace eCommerce.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            
-            return View();
+            List<VideoGame> allGames = 
+                 await VideoGameDB.GetAllGames(_context);
+            return View(allGames);
         }
 
         [HttpGet]

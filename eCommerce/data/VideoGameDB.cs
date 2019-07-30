@@ -1,4 +1,5 @@
 ﻿using eCommerce.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,28 @@ namespace eCommerce.data
             await context.AddAsync(g);
             await context.SaveChangesAsync();
             return g;
+        }
+
+        /// <summary>
+        /// Retrieves all games sorted in alphabetical order
+        /// by title
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static async Task<List<VideoGame>> GetAllGames(GameContext context)
+        {
+            //LINQ Query Syntax
+            //List<VideoGame> games =
+                   //await (from vidGame in context.videoGames
+                        //orderby vidGame.Title ascending
+                        //select vidGame).ToListAsync();
+
+            //LINQ Method Syntax
+            List<VideoGame> games = await context.videoGames
+                                                 .OrderBy(g => g.Title)
+                                                  .ToListAsync();
+
+            return games;
         }
     }
 }
