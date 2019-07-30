@@ -47,5 +47,20 @@ namespace eCommerce.data
 
             return games;
         }
+
+        /// <summary>
+        /// Gets a game with a specified Id. If no game is found null
+        /// is returned
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public async static Task<VideoGame> GetGameById(int id, GameContext context)
+        {
+            VideoGame g = await (from game in context.videoGames
+                           where game.Id == id
+                           select game).SingleOrDefaultAsync();
+            return g;
+        }
     }
 }
