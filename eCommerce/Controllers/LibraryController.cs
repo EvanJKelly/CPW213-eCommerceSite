@@ -20,7 +20,7 @@ namespace eCommerce.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<VideoGame> allGames = 
+            List<VideoGame> allGames =
                  await VideoGameDB.GetAllGames(_context);
             return View(allGames);
         }
@@ -64,7 +64,18 @@ namespace eCommerce.Controllers
             //the form again
             return View(g);
         }
-    }
 
-    
+        public async Task<IActionResult> Delete(int id)
+        {
+            VideoGame game = await VideoGameDB.GetGameById(id, _context);
+            return View(game);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await VideoGameDB.DeleteById(id, _context);
+            return RedirectToAction("Index");
+        }
+    }   
 }
