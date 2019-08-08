@@ -22,6 +22,7 @@ namespace eCommerce.data
         //Add a DbSet<T> for each entity you want to 
         // keep track of in the database
         public DbSet<VideoGame> videoGames { get; set; }
+        public DbSet<Member> Members { get; set; }
 
         
     }
