@@ -1,4 +1,5 @@
 ﻿using eCommerce.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,14 @@ namespace eCommerce.data
            context.Members.Add(m);
            await context.SaveChangesAsync();
            return m;
+        }
+        public async static Task<bool> IsLoginValid(LoginViewModel model, GameContext context)
+        {
+            return await  
+                (from m in context.Members
+                 where (m.UserName == model.UsernameOrEmail || m.EmailAddress == model.UsernameOrEmail) &&
+                 model.Password == model.Password
+                 select m).AnyAsync();
         }
     }
 }
