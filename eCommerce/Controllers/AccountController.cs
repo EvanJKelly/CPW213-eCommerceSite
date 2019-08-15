@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using eCommerce.data;
 using eCommerce.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce.Controllers
@@ -12,10 +13,16 @@ namespace eCommerce.Controllers
    
     public class AccountController : Controller
     {
+        /// <summary>
+        /// provides access to session data for
+        /// the current user
+        /// </summary>
         private readonly GameContext _context;
-        public AccountController(GameContext context)
+        private readonly IHttpContextAccessor _httpContext;
+        public AccountController(GameContext context, IHttpContextAccessor accessor)
         {
             _context = context;
+            _httpContext = accessor;
         }
 
         [HttpGet]
@@ -29,9 +36,11 @@ namespace eCommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                await MemberDb.Add(_context, m);
+               Member member =  await MemberDb.Add(_context, m);
 
                 TempData["Message"] = "You registered sucessfully";
+                //Create session for user
+                HttpContext.Session.SetInt32("MemberId", 1);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -48,9 +57,12 @@ namespace eCommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-               bool isMember = await MemberDb.IsLoginValid(model, _context);
-                if (isMember){
+               Member member = await MemberDb.IsLoginValid(model, _context);
+                if (member != null){
                     TempData["Message"] = "Logged in successfully";
+                    //Create session for user
+                    _httpContext.HttpContext.Session.SetInt32("MemberId", member.MemberId);
+                    _httpContext.HttpContext.Session.SetString("Username", member.UserName);
                     return RedirectToAction("Index", "Home");
                 }
                 else//Credentials invalid
