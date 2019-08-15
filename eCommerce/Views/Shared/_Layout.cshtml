@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor sessionData
+@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -41,6 +43,18 @@
                                 Game Library
                             </a>
                         </li>
+                        @if (sessionData.HttpContext.Session.GetInt32("MemberId").HasValue)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account"
+                                       asp-action="Logout">Logout</a>
+                            </li>
+                            <li>
+                                Hello @sessionData.HttpContext.Session.GetString("Username")
+                            </li>
+                        }
+                        else
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Account"
                                asp-action="Register">
@@ -53,6 +67,7 @@
                                 Login
                             </a>
                         </li>
+                        }
                     </ul>
                 </div>
             </div>
