@@ -42,5 +42,10 @@ namespace eCommerce.Controllers
 
 
         }
+        public IActionResult Checkout()
+        {
+            List<VideoGame> games = CartHelper.GetGames(_httpAccessor);
+            return View(games);
+        }
     }
 }
