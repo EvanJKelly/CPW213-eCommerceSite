@@ -5,7 +5,7 @@
 
 <h1>Browse Game Library</h1>
 <p>
-    <a asp-action="Add" asp-controller="Library">
+    <a asp-action="Add" asp-controller="Library" class="btn btn-primary">
         Add Game
     </a>
 </p>
@@ -32,8 +32,9 @@
             <td>@Html.DisplayFor(m => g.Description)</td>
             <td>@Html.DisplayFor(m => g.Price)</td>
             <td>
-                <a asp-action="Update" asp-route-id="@g.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@g.Id">Delete</a>
+                <a class= "btn btn-secondary" asp-action="Update" asp-route-id="@g.Id">Edit</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@g.Id">Delete</a> |
+                <a asp-action="Add" asp-controller="Cart" class= "btn btn-primary" asp-route-id="@g.Id">Add To Cart</a>
             </td>
         </tr>
         }
