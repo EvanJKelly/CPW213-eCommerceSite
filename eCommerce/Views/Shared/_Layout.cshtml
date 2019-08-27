@@ -41,16 +41,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Library"
-                               asp-action="Index">
-                                Game Library
-                            </a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="Search">Search</a>
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Library" asp-action="Index">Game Library</a>
                         </li>
                         @if (SessionHelper.IsUserLoggedIn(sessionData))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account"
-                                       asp-action="Logout">Logout</a>
+                                   asp-action="Logout">Logout</a>
                             </li>
                             <li>
                                 Hello @SessionHelper.GetUsername(sessionData)
@@ -58,18 +58,18 @@
                         }
                         else
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account"
-                               asp-action="Register">
-                                Register
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account"
-                               asp-action="Login">
-                                Login
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account"
+                                   asp-action="Register">
+                                    Register
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account"
+                                   asp-action="Login">
+                                    Login
+                                </a>
+                            </li>
                         }
                     </ul>
                 </div>

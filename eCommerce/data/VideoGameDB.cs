@@ -115,5 +115,54 @@ namespace eCommerce.data
                            select game).SingleOrDefaultAsync();
             return g;
         }
+
+
+        /// <summary>
+        /// Searches for games that match the criteria and 
+        /// returns all games that match
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
+        public async static Task<List<VideoGame>> Search(GameContext context, SearchCriteria criteria)
+        {
+            //SELECT * FROm VIdeoGames
+            //This does NOT query the database
+            IQueryable<VideoGame> allGames = from g in context.videoGames
+                                             select g;
+
+            if (criteria.MinPrice.HasValue)
+            {
+                //Add to WHERE clause
+                //Price >= criteria.MinPrice
+                allGames = from g in allGames
+                           where g.Price >= criteria.MinPrice
+                           select g;
+            }
+            if (criteria.MaxPrice.HasValue)
+            {
+                allGames = from g in allGames
+                           where g.Price <= criteria.MaxPrice
+                           select g;
+            }
+            if (!string.IsNullOrWhiteSpace(criteria.Title))
+            {
+                //WHERE LEFT(Title) = criteria.Title
+                allGames = from g in allGames
+                           where g.Title.StartsWith(criteria.Title)
+                           select g;
+            }
+            if (!string.IsNullOrWhiteSpace(criteria.Rating))
+            {
+                //WHERE Rating = criteria.Rating
+                allGames = from g in allGames
+                           where g.Rating == criteria.Rating
+                           select g;
+            }
+
+            //Send final query to database to reutnr results
+            //Ef does not send the query to the DB until it has to
+            return await allGames.ToListAsync();
+        }
     }
 }
