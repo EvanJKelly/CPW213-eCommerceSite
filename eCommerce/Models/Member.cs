@@ -47,11 +47,7 @@ namespace eCommerce.Models
 
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date)]
-        // Make custom attribute in order to do a dynamic
-        //date range
-       // [Range(typeof(DateTime), DateTime.Today.AddYears(-120).ToShortDateString(),DateTime.Today.ToShortDateString()]
-        //[Required] - It's already required because
-        //DateTiem is a structure(it's a value type)
+        [DateOfBirth]
         public DateTime DateOfBirth { get; set; }
 
     }
@@ -69,5 +65,25 @@ namespace eCommerce.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+    }
+
+    public class DateOfBirthAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            
+
+            //Get the value of DateOfBirt for the model 
+            DateTime dob = Convert.ToDateTime(value);
+
+            DateTime oldestage = DateTime.Today.AddYears(-120);
+            if (dob > DateTime.Today || dob < oldestage)
+            {
+                string errMsg = "You cannot be born in the future or 120 years ago";
+                return new ValidationResult(errMsg);
+            }
+
+            return ValidationResult.Success;
+        }
     }
 }
